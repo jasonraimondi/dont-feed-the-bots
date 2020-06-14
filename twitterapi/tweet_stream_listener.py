@@ -7,12 +7,10 @@ from tweepy.streaming import StreamListener
 
 # Create the class that will handle the tweet stream
 class TweetStreamListener(StreamListener):
-    def __init__(self, bot_o_meter: Botometer):
-        self.bom = bot_o_meter
 
     def on_data(self, data):
         print(data)
-        list_mentioned_users(data)
+        # list_mentioned_users(data)
         return True
 
     def on_error(self, status):
