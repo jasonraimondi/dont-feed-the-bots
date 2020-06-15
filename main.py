@@ -2,10 +2,10 @@ import os
 
 import botometer
 import redis
-from tweepy import OAuthHandler, Stream
+from tweepy import OAuthHandler, Stream, API
 
 from load_users_file import get_users_from_file
-from tweet_stream_listener import TweetStreamListener, Store, convert_usernames_into_ids
+from tweet_stream_listener import TweetStreamListener, Store, Tweeter
 
 twitter_app_auth = {
     "consumer_key": os.environ["TW_CONSUMER_KEY"],
@@ -27,7 +27,9 @@ store = Store(redis.Redis(host=redis_host, port=redis_port))
 auth = OAuthHandler(twitter_app_auth["consumer_key"], twitter_app_auth["consumer_secret"])
 auth.set_access_token(twitter_app_auth["access_token"], twitter_app_auth["access_token_secret"])
 
-stream_listener = TweetStreamListener(store, botometer, auth)
+api = API(auth)
+tweeter = Tweeter(api)
+stream_listener = TweetStreamListener(store, botometer, tweeter)
 
 users = os.environ.get("USERS")
 
@@ -42,9 +44,7 @@ if not users:
 if isinstance(users, str):
     users = users.replace(" ", "").split(",")
 
-user_ids = convert_usernames_into_ids(auth, users)
-print(users)
-print(user_ids)
+user_ids = tweeter.convert_usernames_into_ids(users)
 stream = Stream(auth, stream_listener)
 stream.filter(follow=user_ids)
 
