@@ -73,6 +73,6 @@ class TweetStreamListener(StreamListener):
         for uid, result in self.bom.check_accounts_in(user_ids):
             screen_name = result["user"]["screen_name"]
             print("looking up %s--%s in botometer" % (uid, screen_name))
-            percent = round(result["display_scores"]["english"] / 5, 2)
+            percent = round(result["display_scores"]["english"] / 5 * 100, 2)
             self.store.set_user(uid, percent)
             yield uid, percent
