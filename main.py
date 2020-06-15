@@ -20,12 +20,14 @@ botometer = botometer.Botometer(wait_on_ratelimit=True,
                                 rapidapi_key=rapidapi_key,
                                 **twitter_app_auth)
 
-store = Store(redis.Redis(host='localhost', port=6379))
+redis_host = os.environ["REDIS_HOST"]
+redis_port = os.environ["REDIS_PORT"]
+store = Store(redis.Redis(host=redis_host, port=redis_port))
 
 auth = OAuthHandler(twitter_app_auth["consumer_key"], twitter_app_auth["consumer_secret"])
 auth.set_access_token(twitter_app_auth["access_token"], twitter_app_auth["access_token_secret"])
 
-stream_listener = TweetStreamListener(store, botometer)
+stream_listener = TweetStreamListener(store, botometer, auth)
 
 users = os.environ.get("USERS")
 
