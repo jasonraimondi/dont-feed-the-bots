@@ -12,6 +12,6 @@ COPY --chown=pyuser:pyuser ./requirements.txt /app/requirements.txt
 
 RUN pip install -r /app/requirements.txt
 
-COPY --chown=pyuser:pyuser  ./ /app/
+COPY --chown=pyuser:pyuser  dontfeedthebots /app/
 
-ENTRYPOINT ["python", "-u", "main.py"]
+CMD ["python", "-u", "main.py"]
