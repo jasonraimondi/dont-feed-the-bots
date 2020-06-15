@@ -59,7 +59,7 @@ class TweetStreamListener(StreamListener):
             message = "According to botometer, @%s is %s%% likely a bot https://botometer.iuni.iu.edu" \
                       % (screen_name, percent)
             if percent > 40:
-                self.tweeter.tweet_it(message, tweet["id"])
+                self.tweeter.tweet_it(message, tweet["id_str"])
                 print("tweeting out: %s" %(message))
             else:
                 print(message)
