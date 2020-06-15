@@ -1,12 +1,12 @@
 version: "3.7"
 
 services:
-  app:
-    image: jasonraimondi/dont-feed-the-bots
-    build: .
-    env_file: .env
-    environment:
-      USERS: "jsonmamondi,realDonaldTrump"
+#  app:
+#    image: jasonraimondi/dont-feed-the-bots
+#    build: .
+#    env_file: .env
+#    environment:
+#      USERS: "jsonmamondi,realDonaldTrump"
 
   redis:
     image: redis
