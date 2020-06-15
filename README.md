@@ -1,5 +1,11 @@
-# dont-feed-the-bots
+# [@dontfeedthebots](https://twitter.com/dontfeedthebots)
 
-**this is a work in progress**
+**This is a work in progress**
 
 Uses the twitter stream api to monitor a list of users.json and run any users they mention in tweets through botometer.iuni.iu.edu to see make sure any users you're interacting with are not bots
+
+
+#### Text I am copy pastaing from the twitter app application that might be useful in the readme when I work on it:
+
+Based on a list of users, mostly myself and a few friends, we will stream tweets and run mentioned users through botometer. If a user is above the threshold set, @dontfeedthebots will resly and let the user know that the person they are interacting with is a bot. 
+
