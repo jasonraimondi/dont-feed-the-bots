@@ -1,11 +1,10 @@
-import json
 import os
 
 import botometer
-import tweepy
 from tweepy import OAuthHandler, API, Stream
 
-from twitterapi.tweet_stream_listener import TweetStreamListener
+from load_users_file import get_users_from_file
+from tweet_stream_listener import TweetStreamListener
 
 twitter_app_auth = {
     "consumer_key": os.environ["TW_CONSUMER_KEY"],
@@ -16,27 +15,22 @@ twitter_app_auth = {
 
 rapidapi_key = os.environ["RAPIDAPI_KEY"]
 
+botometer = botometer.Botometer(wait_on_ratelimit=True,
+                                rapidapi_key=rapidapi_key,
+                                **twitter_app_auth)
 
-def get_users_from_file(file_name="users.json"):
-    if os.path.exists(file_name):
-        fp = open(file_name, "r")
-        content = fp.read()
-        fp.close()
-        return json.loads(content)
-
-
-# Handles Twitter authetification and the connection to Twitter Streaming API
-bom = botometer.Botometer(wait_on_ratelimit=True,
-                          rapidapi_key=rapidapi_key,
-                          **twitter_app_auth)
-
-stream_listener = TweetStreamListener(bom)
+stream_listener = TweetStreamListener(botometer)
 auth = OAuthHandler(twitter_app_auth["consumer_key"], twitter_app_auth["consumer_secret"])
 auth.set_access_token(twitter_app_auth["access_token"], twitter_app_auth["access_token_secret"])
 
-api = API(auth)
-user_ids = list(map(lambda x: api.get_user(x).id_str, get_users_from_file()))
-print(user_ids)
+
+def get_ids_for_users(users):
+    api = API(auth)
+    return list(map(lambda x: api.get_user(x).id_str, users))
+
+
+users = get_users_from_file()
+user_ids = get_ids_for_users(users)
 
 stream = Stream(auth, stream_listener)
 stream.filter(follow=user_ids)

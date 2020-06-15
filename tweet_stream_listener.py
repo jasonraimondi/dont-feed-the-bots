@@ -1,11 +1,9 @@
-# Import the necessary methods from tweepy library
 import json
 
 from botometer import Botometer
 from tweepy.streaming import StreamListener
 
 
-# Create the class that will handle the tweet stream
 class TweetStreamListener(StreamListener):
     def __init__(self, bom: Botometer):
         self.bom = bom
