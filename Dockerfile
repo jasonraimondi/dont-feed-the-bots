@@ -1,11 +1,17 @@
-FROM python:3
+FROM python:3-alpine
 
 WORKDIR /app
 
-COPY ./requirements.txt /app/requirements.txt
+RUN addgroup -g 1000 pyuser \
+    && adduser -u 1000 -G pyuser -s /bin/sh -D pyuser \
+    && chown -R pyuser:pyuser /app
+
+USER pyuser
+
+COPY --chown=pyuser:pyuser ./requirements.txt /app/requirements.txt
 
 RUN pip install -r /app/requirements.txt
 
-COPY ./ /app/
+COPY --chown=pyuser:pyuser  ./ /app/
 
 ENTRYPOINT ["python", "-u", "main.py"]
