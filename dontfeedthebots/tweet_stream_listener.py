@@ -46,9 +46,13 @@ class TweetStreamListener(StreamListener):
 
     def on_data(self, data):
         tweet = json.loads(data)
+
         if "delete" in tweet:
             print("skip delete tweet event")
             return True
+
+
+        origin_screen_name = tweet["user"]["screen_name"]
 
         user_names = self.list_mentioned_user_names(tweet)
         if not user_names:
@@ -56,9 +60,9 @@ class TweetStreamListener(StreamListener):
 
         for screen_name, percent in self.lookup_users(user_names):
             percent = round(float(percent), 2)
-            message = "According to botometer, @%s is %s%% likely a bot https://botometer.iuni.iu.edu" \
-                      % (screen_name, percent)
-            if percent > 40:
+            message = "@%s According to botometer, @%s is %s%% likely a bot https://botometer.iuni.iu.edu" \
+                      % (origin_screen_name, screen_name, percent)
+            if percent > 35:
                 self.tweeter.tweet_it(message, tweet["id_str"])
                 print("tweeting out: %s" %(message))
             else:
