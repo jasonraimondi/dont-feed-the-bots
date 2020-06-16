@@ -51,6 +51,8 @@ class TweetStreamListener(StreamListener):
             print("skip delete tweet event")
             return True
 
+        if tweet["user"]["screen_name"].lower() == "dontfeedthebots":
+            return True
 
         origin_screen_name = tweet["user"]["screen_name"]
 
