@@ -1,6 +1,8 @@
 # [@dontfeedthebots](https://twitter.com/dontfeedthebots)
 
-**This is a work in progress**
+![build docker image](https://github.com/jasonraimondi/dont-feed-the-bots/workflows/build%20docker%20image/badge.svg)
+
+#### This is a work in progress
 
 Uses the twitter stream api to monitor a list of users.json and run any users they mention in tweets through botometer.iuni.iu.edu to see make sure any users you're interacting with are not bots
 
