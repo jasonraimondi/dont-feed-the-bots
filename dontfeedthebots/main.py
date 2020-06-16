@@ -4,8 +4,8 @@ import botometer
 import redis
 from tweepy import OAuthHandler, Stream, API
 
-from dontfeedthebots.load_users_file import get_users_from_file
-from dontfeedthebots.tweet_stream_listener import TweetStreamListener, Store, Tweeter
+from load_users_file import get_users_from_file
+from tweet_stream_listener import TweetStreamListener, Store, Tweeter
 
 twitter_app_auth = {
     "consumer_key": os.environ["TW_CONSUMER_KEY"],
