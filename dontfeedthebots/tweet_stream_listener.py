@@ -32,9 +32,8 @@ class Store:
 
     def get_user(self, user_id):
         percent = self.redis.get(user_id)
-        if not percent:
-            return None
-        return percent.decode("utf-8")
+        if percent:
+            return percent.decode("utf-8")
 
 
 class TweetStreamListener(StreamListener):
@@ -88,6 +87,6 @@ class TweetStreamListener(StreamListener):
         for screen_name, result in self.bom.check_accounts_in(user_names):
             uid = result["user"]["id_str"]
             print("looking up %s--%s in botometer" % (uid, screen_name))
-            percent = round(result["display_scores"]["english"] / 5 * 100, 2)
+            percent = round(float(result["display_scores"]["english"] / 5 * 100), 2)
             self.store.set_user(screen_name, percent)
             yield screen_name, percent
